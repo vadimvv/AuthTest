@@ -1,0 +1,204 @@
+﻿@model BugTrackingSystem.Service.Models.ProjectViewModel
+
+@{
+    ViewBag.Title = "Project";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-sm-12 general-container">
+    <div id="header" class="row">
+        <div id="headerTitle" class="col-sm-6 col-xs-12 padding0">
+            @Model.Name
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add task">
+                <i class="fa fa-plus round" aria-hidden="true" onclick="CreateTaskModalShow()"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Edit project">
+                <i class="fa fa-pencil round" aria-hidden="true" data-toggle="modal" data-target="#EditProjectModalWindow"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Pause project">
+                <i class="fa fa-pause round" aria-hidden="true" data-toggle="modal" data-target="#PauseProjectModal"></i>
+            </div>
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Delete project">
+                <i class="fa fa-times round" aria-hidden="true" onclick="DeleteProjectModalShow()"></i>
+            </div>
+        </div>
+
+        <div class="pull-right col-sm-6 col-xs-12 padding0" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon" style="background-color: #F8FEFE">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12">
+        <a class="pull-right" data-toggle="collapse" data-target="#extendedSearch" style="padding: 10px 0;">Advanced Search</a>
+
+        <div class="collapse col-xs-12 AdvancedSearch" id="extendedSearch">
+            <form>
+                <div class="form-group" style="padding: 10px 0; margin: 0;">
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title" style="margin: 0; display: inline-block">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-bottom: 15px;">
+        <div class="projectInfo col-sm-4 pull-left">
+            <div style="display: inline-flex">
+                <div class="inline-block" style="">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; padding-top: 5px; display: inline-flex">
+                        <span style="font-size: 14px; margin-top: 7px; margin-left: 3px;">@Model.BugsCount</span>
+                    </i>
+                </div>
+                @Html.Action("ProjectUsers", "Project")
+            </div>
+
+
+        </div>
+    </div>
+    <div class="Sort_Title_Pagination">
+        <div class="content inline-block">
+            Sort by:
+            <div class="ui inline dropdown">
+                <div class="text" style="font-weight: normal">Title</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item selected inlineDropdown" data-text="Title">Title</div>
+                    <div class="item inlineDropdown" data-text="Project">Project</div>
+                    <div class="item inlineDropdown" data-text="Assignee">Assignee</div>
+                    <div class="item inlineDropdown" data-text="Status">Status</div>
+                    <div class="item inlineDropdown" data-text="Priority">Priority</div>
+                </div>
+            </div>
+        </div>
+        <div class=" pull-right" style="display: inline-block">
+            <nav class="local-pagination">
+                <ul class="pagination pagination-sm">
+                    <li><a href="#">1</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="col-xs-12 padding0">
+        @Html.Action("ProjectBugs", "Project", new { projectId = @Model.ProjectId })
+    </div>
+    <div class="col-xs-12" style="margin: 15px 20px;">
+        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;"> Tasks: @Model.BugsCount</i>
+        <div class=" pull-right" style="display: inline-block">
+            <nav class="local-pagination">
+                <ul class="pagination pagination-sm">
+                    <li><a href="#">1</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div id="EditProjectModalWindow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="EditProjectLabel">
+    <div class="modal-dialog" role="document" id="EditProjectModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-list" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Edit project</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Title" value="@Model.Name" id="EditProjectName" style="margin: 0; display: inline-block">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn modalCreateButton" id="SaveEditedProject">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared", new {projectId = @Model.ProjectId})"></div>
+<div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
+
+
+
+<div class="modal fade" id="PauseProjectModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" id="DeleteProjectModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pause" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Pause project</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Pause this project?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn modalCreateButton">No</button>
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton" onclick="PauseProject(@Model.ProjectId)">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function PauseProject(id) {
+        $.ajax({
+            type: 'POST',
+            data: { projectId: id },
+            url: '/Project/PauseProject',
+            success: function () {
+                window.location = '/Project/Projects';
+            },
+            error: function () {
+                alert('FUCK!');
+            }
+        });
+    }
+</script>
+
+<script>
+    $("#SaveEditedProject").click(function(e) {
+        e.preventDefault();
+        var name = $("#EditProjectName").val();
+        $.ajax({
+            type: 'POST',
+            data: { name: name, projectId: @Model.ProjectId },
+            url: '/Project/EditProject',
+            success: function() {
+                location.reload();
+            },
+            error: function() {
+                alert('An error occured.Cant save your changes.');
+            }
+        });
+    });
+</script>
+
+<script>
+    function DeleteProjectModalShow() {
+        $(document).ready(function () {
+            var url = $('#DeleteProjectModalContainer').data('url');
+
+            $.get(url, function (data) {
+                $('#DeleteProjectModalContainer').html(data);
+
+                $('#DeleteProjectModal').modal('show');
+            });
+        });
+    }
+</script>
+
+
+
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();
+    ;
+</script>

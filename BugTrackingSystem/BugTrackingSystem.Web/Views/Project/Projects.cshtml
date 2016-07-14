@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Projects";
+}
+
+
+<div class="col-lg-12 general-container">
+
+    <div id="header" class="row">
+        <div id="headerTitle" class="col-sm-6 col-xs-12">
+            Projects
+            <div class="inline-block" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Add project">
+                <i class="fa fa-plus round" style="margin: 0" data-toggle="modal" aria-hidden="true" data-target="#addProjectModal">
+                </i>
+            </div>
+        </div>
+
+        <div class="pull-right col-sm-6 col-xs-12" id="Local-search">
+            <div id="imaginary_container">
+                <div class="input-group stylish-input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon" style="background-color: #F8FEFE">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-search" style="font-size: 18px;"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="projectsContainer">@Html.Action("ProjectsInfo", "Project")</div>
+
+</div>
+
+<div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" id="TaskModalDialog" style="padding: 0;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true" style="font-size: 34px;"></i></button>
+                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 24px; color: white; padding: 7px 5px 0 0"></i>
+                <h3 style="display: inline-block; margin: 5px 0 0 0;">Create new project</h3>
+            </div>
+            <div class="modal-body col-lg-12">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="name" placeholder="Title" style="margin: 0; display: inline-block">
+                    </div>
+                    <div class="form-group col-xs-4 padding0">
+                        <input type="email" class="form-control" id="prefix" placeholder="Prefix" style="margin: 0; display: inline-block">
+                    </div>
+                    <div class="col-xs-6" style="color: lightgrey; padding-top: 7px;">
+                        Three letters for deescription of project
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" id="addProject" class="btn modalCreateButton">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="DeleteProjectModalContainer" data-url="@Url.Action("DeleteProjectModal", "Shared")"></div>
+
+
+<script>
+    function DeleteProjectModalShow(id) {
+        $(document).ready(function () {
+            var url = $('#DeleteProjectModalContainer').data('url') + '?projectId=' + id;
+
+            $.get(url, function (data) {
+                $('#DeleteProjectModalContainer').html(data);
+
+                $('#DeleteProjectModal').modal('show');
+            });
+        });
+    }
+</script>
+
+<script>
+    function showCloseIcon(divId) {
+        $(divId).children(".fa").show();
+
+        $(divId).on("mouseleave", function () {
+            $(divId).children(".fa").hide();
+        });
+    }
+</script>
+<script>
+    $("#addProject").click(function (e) {
+        e.preventDefault();
+        var name = $("#name").val();
+        var prefix = $("#prefix").val();
+        $.ajax({
+            type: 'POST',
+            data: { name: name, prefix: prefix },
+            url: '/Project/AddProject',
+            success: function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Project/ProjectsInfo',
+                    success: function(data) {
+                        $('#projectsContainer').html(data);
+                    }
+                });
+            },
+            error: function () {
+                alert('FUCK!');
+            }
+        });
+    });
+</script>
+<script>
+    $('.ui.inline.dropdown')
+        .dropdown();
+    ;
+</script>

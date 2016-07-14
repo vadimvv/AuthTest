@@ -1,0 +1,20 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.BaseBugViewModel>
+<body>
+    <div class="general-container marginFromMenu">
+        <div class="row">
+            <div class="col-lg-3 padding0">
+                <h1 style="margin-bottom: 40px; margin-top: 0;">My projects</h1>
+                @Html.Action("MyProjects", "Home")
+
+                <div class="container col-lg-12">
+                    <a href="@Url.Action("Projects", "Project")" id="ShowAllMyProjects">Show all<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-9" style="padding-left: 80px;">
+                <h1 style="margin-bottom: 5px; margin-top: 0;">Assigned to me</h1>
+                @Html.Action("UserBugs", "Shared")
+            </div>
+        </div>
+    </div>
+</body>

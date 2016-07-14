@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BugTrackingSystem.Service.Models.UserViewModel>
+
+
+<div class="row Sort_Title_Pagination">
+
+    <div class="content inline-block">
+        Sort by:
+        <div class="ui inline dropdown" style="color: #4D868D">
+            <div class="text" style="font-weight: normal">First Name</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item selected inlineDropdown" data-text="First Name">First Name</div>
+                <div class="item inlineDropdown" data-text="Last Name">Last Name</div>
+                <div class="item inlineDropdown" data-text="Role">Role</div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" pull-right" style="display: inline-block">
+        <nav class="local-pagination">
+            <ul class="pagination pagination-sm">
+                <li><a href="#">1</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    @foreach (var user in Model)
+    {
+
+        <div class="col-lg-4 col-md-4" onmouseover="showCloseIcon(this)">
+            <i class="fa fa-times-circle" style="display: none;" aria-hidden="true" onclick="DeleteProjectModalShow(@user.UserId)"></i>
+            <a class="redirectAncore" href="@Url.Action("Index", "Profile", new {userId = user.UserId})">
+                <div class="custom-sticker">
+                    <div class="userInfo">
+                        <img src="@user.Photo" class="img-circle" height="45" width="45" alt="userPhoto" />
+                        <div id="FirstLastName">@user.FirstName @user.LastName</div>
+                        <div id="email">@user.Email</div>
+                    </div>
+                    <div class="row">
+                        <div class="pull-left projectInfo">
+                            @if (false)
+                            {
+                                <span id="" style="border: 1px solid orange; padding: 5px;">Me</span>
+                            }
+                        </div>
+                        <div class="projectInfo pull-right">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"><span style="margin: 0 5px;">@user.BugsCount</span></i>
+                            <i class="fa fa-th-list" aria-hidden="true"><span style="margin-left: 5px;">@user.ProjectsCount</span></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    }
+
+
+</div>
+<div class="col-xs-12" style="margin-top: 30px; padding: 0 0 0 30px;">
+    <i class="fa fa-users col-lg-2" aria-hidden="true" style="font-size: 18px; padding: 0; margin: 0"> Users: @Model.Count()</i>
+    <div class=" pull-right" style="display: inline-block">
+        <nav class="local-pagination">
+            <ul class="pagination pagination-sm">
+                <li><a href="#">1</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

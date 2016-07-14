@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../Content/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="../../Content/dropdown.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/transition.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/Site.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="../../Scripts/dropdown.min.js"></script>
+    <script src="../../Scripts/transition.min.js"></script>
+    <script>
+        function ShowSearch() {
+            $("#searchText").toggle();
+        }
+    </script>
+
+    <script>
+        function CreateTaskModalShow() {
+            $(document).ready(function () {
+                var url = $('#TaskModalContainer').data('url');
+
+                $.get(url, function (data) {
+                    $('#TaskModalContainer').html(data);
+
+                    $('#TaskModalWindow').modal('show');
+                });
+            });
+        }
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        })
+    </script>
+    <script>
+        $('.ui.dropdown')
+            .dropdown();
+    </script>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#NavbarCollapsed" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar spanColor"></span>
+                    <span class="icon-bar spanColor"></span>
+                    <span class="icon-bar spanColor"></span>
+                </button>
+                <ul class="nav collapsed" style="display: inline-block; float: right; margin-right: 50px;">
+                    <li class="dropdown userProfile" id="userCol">
+                        <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhotoCollapsed">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-toggle" style="margin-right: 40px; margin-top: -5px;">
+                            <li style="height: 16px; background-color: transparent"><i id="dropdownCaretCollapsed" class="fa fa-caret-up" aria-hidden="true"></i></li>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Sign Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a href="@Url.Action("Dashboard", "Home")" class="navbar-brand">
+                    <img src="~/Content/Images/logo.png" alt="logo">
+                </a>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="NavbarCollapsed">
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("Projects", "Project")">Projects</a></li>
+                    <li><a href="@Url.Action("Index", "Users")">Users</a></li>
+                    <li><a href="@Url.Action("Filters", "Filters")">Filters</a></li>
+                    <li><a class="visible-xs" onclick="CreateTaskModalShow()">Create task</a></li>
+                </ul>
+                <button type="button" class="btn btn-header" onclick="CreateTaskModalShow()" id="taskButton" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: white;"></span>
+                    Create task
+                </button>
+                <ul class="nav navbar-nav navbar-right" id="userDrop" style="margin-top: 0; margin-left: 25px; margin-right: 15px;">
+                    <li class="dropdown userProfile">
+                        <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navUserPhoto">
+                            <img src="~/Content/Images/orwell.jpeg" class="img-circle" style="height: 40px; width: 40px; margin-right: 5px;" />
+                            <span id="navUserName">@User.Identity.Name</span>
+                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="dropdown-menu dropdown-toggle" id="navDropdown">
+                                <li style="height: 16px; background-color: transparent"><i id="dropdownCaret" class="fa fa-caret-up" aria-hidden="true"></i></li>
+                                <li><a href="@Url.Action("Index", "Profile")">Profile</a></li>
+                                <li><a href="@Url.Action("Logout", "Login")">Sign Out</a></li>
+                            </ul>
+                        }
+                    </li>
+                </ul>
+                <div class="nav navbar-nav navbar-right" id="search">
+                    <form class="navbar-form navbar-left inline-block" role="search" style="margin: 7px 0;">
+                        <div class="form-group" style="display: none;" id="searchText">
+                            <input id="navSearch" type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                    <div class="inline-block" style="position: absolute">
+                        <span id="navSearchGlyph" class="glyphicon glyphicon-search" onclick="ShowSearch()"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="TaskModalContainer" data-url="@Url.Action("CreateTask", "Shared")"></div>
+
+    @RenderBody()
+
+</body>
+
+</html>

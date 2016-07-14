@@ -1,0 +1,47 @@
+﻿using System.Linq;
+using System.Web.Mvc;
+using BugTrackingSystem.Service.Services;
+using PagedList;
+
+namespace BugTrackingSystem.Web.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly IUserService _userService;
+
+        public HomeController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+<<<<<<< Updated upstream
+        public ActionResult Dashboard(int? page)
+        {
+            //var user = _userService.GetUserById(1);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            ViewBag.AllProjects = _userService.GetUsersBugs(1).Count();
+            var userBugs = _userService.GetUsersBugs(1).OrderBy(x => x.BugId).ToPagedList(pageNumber, pageSize);
+
+
+            return View(userBugs);
+=======
+        public ActionResult Dashboard()
+        {  
+            return View();
+>>>>>>> Stashed changes
+        }
+        public ActionResult MyProjects()
+        {
+            var userProjects = _userService.GetUsersProjects(1);
+            return PartialView(userProjects);
+        }
+
+
+    }
+}

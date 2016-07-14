@@ -1,0 +1,4 @@
+bin/
+obj/
+*.suo
+BugTrackingSystem.Database/BugTrackingSystem.Database.dbmdl

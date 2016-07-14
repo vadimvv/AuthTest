@@ -1,0 +1,35 @@
+﻿@model BugTrackingSystem.Data.Model.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Content/login_style.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="Login">
+        <div id="logo">
+            <img src="~/Content/images/logo-vertical.png" />
+        </div>
+        <div id="errorText">
+            Sorry, your email or password are incorrect. Please try again.
+        </div>
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "loginForm" }))
+        {
+            @Html.ValidationSummary(false)
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email" })
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Password" })
+            @*<input type="text" name="email" placeholder="Email"/>
+                <br/>
+                <input type="password" name="password" placeholder="Password"/>*@
+            <input type="checkbox" name="RemebmerMe" />
+            <span id="RememberMe">Remember me</span>
+            <a id="ForgotPass" href="#">Forgot password</a>
+            <input type="submit" value="Login" />
+        }
+    </div>
+</body>
+</html>
